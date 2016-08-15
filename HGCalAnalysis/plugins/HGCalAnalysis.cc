@@ -209,15 +209,15 @@ HGCalAnalysis::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   multiClusters = pre.makePreClusters(clusters);
   unsigned int cluster_index = 0;
   for(unsigned int i = 0; i < multiClusters.size(); i++){
-      int cl2dSeed = 0;
+//      int cl2dSeed = 0;
     for(HGCalMultiCluster::component_iterator it = multiClusters[i].begin();
 	it!=multiClusters[i].end(); it++){
-      if(it->energy() > (it+cl2dSeed)->energy()) cl2dSeed = it - multiClusters[i].begin();
+//      if(it->energy() > (it+cl2dSeed)->energy()) cl2dSeed = it - multiClusters[i].begin();
 
       const std::vector< std::pair<DetId, float> > &hf = it->hitsAndFractions();
       int ncoreHit = 0;
       int layer = 0;
-      int rhSeed = 0;
+//      int rhSeed = 0;
 
       for(unsigned int j = 0; j < hf.size(); j++){
 	//here we loop over detid/fraction pairs
@@ -241,7 +241,7 @@ HGCalAnalysis::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
     const double phi = recHitTools.getPhi(position);
     const double pt = recHitTools.getPt(position, hit->energy(), vz);
 
-	if(hit->energy() > hitmap[hf[rhSeed].first]->energy()) rhSeed = j;
+//	if(hit->energy() > hitmap[hf[rhSeed].first]->energy()) rhSeed = j;
 
 	if(layer < 29){
 	  nhit++;
