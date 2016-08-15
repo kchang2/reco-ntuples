@@ -152,6 +152,16 @@ HGCalAnalysis::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   const std::vector<TrackingVertex>& vtxs = *vtxHandle;
   const std::vector<TrackingParticle>& part = *partHandle;
 
+  float vx = 0.;
+  float vy = 0.;
+  float vz = 0.;
+
+  if(vtxs.size()!=0){
+    vx = vtxs[0].position().x();
+    vy = vtxs[0].position().y();
+    vz = vtxs[0].position().z();
+  }
+
 
   //make a map detid-rechit
   std::map<HGCalDetId,const HGCRecHit*> hitmap;
