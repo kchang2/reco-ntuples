@@ -100,6 +100,8 @@ HGCalAnalysis::HGCalAnalysis(const edm::ParameterSet& iConfig) :
     _clusters = consumes<reco::CaloClusterCollection>(edm::InputTag("imagingClusterHGCal"));
     algo = 3;
   }
+  _vtx = consumes<std::vector<TrackingVertex> >(edm::InputTag("mix","MergedTrackTruth"));
+  _part = consumes<std::vector<TrackingParticle> >(edm::InputTag("mix","MergedTrackTruth"));
 
   edm::Service<TFileService> fs;
   fs->make<TH1F>("totale", "totale", 100, 0, 5.);
