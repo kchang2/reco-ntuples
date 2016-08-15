@@ -27,7 +27,7 @@ process.TFileService = cms.Service("TFileService",
                                    fileName = cms.string("twogamma_pt5_eta2_nosmear_calib_ntuple.root")
 
                                    )
-process.imagingClusterHGCal.ecut = cms.double(0.01)
+process.imagingClusterHGCal.ecut = cms.double(0.00)
 process.imagingClusterHGCal.eventsToDisplay = cms.untracked.uint32(2)
 
 process.p = cms.Path(process.imagingClusterHGCal+process.ana)
