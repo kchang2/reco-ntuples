@@ -69,10 +69,7 @@ private:
 
   TTree                     *tree;
   AEvent                    *event;
-  AGenPartCollection        *agpc;
   ARecHitCollection         *arhc;
-  ACluster2dCollection      *acdc;
-  AMultiClusterCollection   *amcc;
   std::string                detector;
   int                        algo;
   HGCalDepthPreClusterer     pre;
@@ -103,22 +100,14 @@ HGCalAnalysis::HGCalAnalysis(const edm::ParameterSet& iConfig) :
     _clusters = consumes<reco::CaloClusterCollection>(edm::InputTag("imagingClusterHGCal"));
     algo = 3;
   }
-  _vtx = consumes<std::vector<TrackingVertex> >(edm::InputTag("mix","MergedTrackTruth"));
-  _part = consumes<std::vector<TrackingParticle> >(edm::InputTag("mix","MergedTrackTruth"));
 
   edm::Service<TFileService> fs;
   fs->make<TH1F>("totale", "totale", 100, 0, 5.);
   tree = new TTree("hgc","Analysis");
-  agpc = new AGenPartCollection();
   arhc = new ARecHitCollection();
-  acdc = new ACluster2dCollection();
-  amcc = new AMultiClusterCollection();
   event = new AEvent();
   tree->Branch("event","AEvent",&event,16000,99);
-  tree->Branch("particles","AGenPartCollection",&agpc,16000,0);
   tree->Branch("rechits","ARecHitCollection",&arhc,16000,0);
-  tree->Branch("cluster2d","ACluster2dCollection",&acdc,16000,0);
-  tree->Branch("multicluster","AMultiClusterCollection",&amcc,16000,0);
 }
 HGCalAnalysis::~HGCalAnalysis()
 {
@@ -133,11 +122,7 @@ void
 HGCalAnalysis::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   using namespace edm;
-  agpc->clear();
   arhc->clear();
-  acdc->clear();
-  amcc->clear();
-
 
   edm::ESHandle<HGCalGeometry> geoHandleEE;
   iSetup.get<IdealGeometryRecord>().get("HGCalEESensitive",geoHandleEE);
@@ -168,29 +153,6 @@ HGCalAnalysis::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   const std::vector<TrackingParticle>& part = *partHandle;
 
 
-  float vx = 0.;
-  float vy = 0.;
-  float vz = 0.;
-  if(vtxs.size()!=0){
-    vx = vtxs[0].position().x();
-    vy = vtxs[0].position().y();
-    vz = vtxs[0].position().z();
-  }
-  // TODO: should fall back to beam spot if no vertex
-  npart = part.size();
-  for(unsigned int i=0;i<part.size();++i){
-    if(part[i].parentVertex()->nGenVertices()>0){
-      float dvx=0.;
-      float dvy=0.;
-      float dvz=0.;
-      if(part[i].decayVertices().size()==1){
-	 dvx=part[i].decayVertices()[0]->position().x();
-	 dvy=part[i].decayVertices()[0]->position().y();
-	 dvz=part[i].decayVertices()[0]->position().z();
-      }
-      agpc->push_back(AGenPart(part[i].eta(),part[i].phi(),part[i].pt(),part[i].energy(),dvx,dvy,dvz,part[i].pdgId()));
-    }
-  }
   //make a map detid-rechit
   std::map<HGCalDetId,const HGCRecHit*> hitmap;
   switch(algo){
@@ -283,25 +245,10 @@ HGCalAnalysis::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
                 isHalfCell, flags, cluster_index));
 
       }
-      double pt = it->energy() / cosh(it->eta());
-      acdc->push_back(ACluster2d(it->x(),it->y(),it->z(),
-				 it->eta(),it->phi(),pt,it->energy(),
-				 layer, ncoreHit,hf.size(),i, rhSeed));
       cluster_index++;
     }
-
-    double pt = multiClusters[i].total_uncalibrated_energy() / cosh(multiClusters[i].simple_eta(vz));
-    amcc->push_back(AMultiCluster(multiClusters[i].simple_eta(vz),
-				  multiClusters[i].simple_phi(),
-                  pt,
-				  multiClusters[i].simple_z(vz),
-				  multiClusters[i].simple_slope_x(vz),
-				  multiClusters[i].simple_slope_y(vz),
-				  multiClusters[i].total_uncalibrated_energy(),
-				  multiClusters[i].size(),
-				  cl2dSeed));
   }
-  event->set(iEvent.run(),iEvent.id().event(),npart,nhit,nclus,nmclus,
+  event->set(iEvent.run(),iEvent.id().event(),nhit,
 	     vx,vy,vz);
   tree->Fill();
 }

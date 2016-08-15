@@ -3,31 +3,6 @@
 
 #include "TObject.h"
 
-class AGenPart : public TObject
-{
-public:
-
-  AGenPart(): eta(-1000.),phi(-1000.),pt(-1000.),energy(-1000.),dvx(0.),dvy(0.),dvz(0.),pid(0)
-  {
-  }
-  AGenPart(float i_eta, float i_phi, float i_pt, float i_energy,
-	   float i_dvx, float i_dvy,float i_dvz, int i_pid) :
-    eta(i_eta),phi(i_phi),pt(i_pt),energy(i_energy),dvx(i_dvx),dvy(i_dvy),dvz(i_dvz),pid(i_pid)
-  {
-  }
-
-  float eta;
-  float phi;
-  float pt;
-  float energy;
-  float dvx;
-  float dvy;
-  float dvz;
-  int pid;
-
-  ClassDef(AGenPart,1)
-};
-
 
 class ARecHit : public TObject
 {
@@ -69,93 +44,6 @@ public:
 };
 
 
-class ACluster2d : public TObject
-{
-public:
-
-  ACluster2d() :  x(0.),y(0.),z(0.),eta(-1000.),phi(-1000.),pt(-1000.),
-    energy(-1000.),layer(0),nhitCore(0),nhitAll(0), multicluster(-1), rechitSeed(-1)
-  {
-  }
-  ACluster2d(  float i_x,
-	       float i_y,
-	       float i_z,
-	       float i_eta,
-	       float i_phi,
-           float i_pt,
-	       float i_energy,
-	       int i_layer,
-	       int i_nhitCore,
-	       int i_nhitAll,
-	       int i_multicluster,
-	       int i_rechitSeed) :
-  x(i_x),y(i_y),z(i_z),eta(i_eta),phi(i_phi),pt(i_pt),
-    energy(i_energy),layer(i_layer),
-    nhitCore(i_nhitCore),nhitAll(i_nhitAll),multicluster(i_multicluster), rechitSeed(i_rechitSeed)
-  {
-  }
-
-
-  float x;
-  float y;
-  float z;
-  float eta;
-  float phi;
-  float pt;
-  float energy;
-  int layer;
-  int nhitCore;
-  int nhitAll;
-  int multicluster;
-  int rechitSeed;
-
-  ClassDef(ACluster2d,1)
-};
-
-
-class AMultiCluster : public TObject
-{
-public:
-
- AMultiCluster() :  eta(-1000.),phi(-1000.),pt(-1000.), z(0),
-    slopeX(0.), slopeY(0.),
-    energy(0.), nclus(0), cl2dSeed(-1)
-  {
-  }
-  AMultiCluster(  float i_eta,
-		  float i_phi,
-          float i_pt,
-		  float i_z,
-		  float i_slopeX,
-		  float i_slopeY,
-		  float i_energy,
-		  int i_nclus,
-		  int i_cl2dSeed) :
-  eta(i_eta),phi(i_phi),pt(i_pt),z(i_z),
-    slopeX(i_slopeX), slopeY(i_slopeY),
-    energy(i_energy),nclus(i_nclus), cl2dSeed(i_cl2dSeed)
-  {
-  }
-
-
-  float eta;
-  float phi;
-  float pt;
-  float z;
-  float slopeX;
-  float slopeY;
-  float energy;
-  int nclus;
-  int cl2dSeed;
-
-
-  ClassDef(AMultiCluster,1)
-};
-
-
-typedef std::vector<AGenPart> AGenPartCollection;
 typedef std::vector<ARecHit> ARecHitCollection;
-typedef std::vector<ACluster2d> ACluster2dCollection;
-typedef std::vector<AMultiCluster> AMultiClusterCollection;
 
 #endif

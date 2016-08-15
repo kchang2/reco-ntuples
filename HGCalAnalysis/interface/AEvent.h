@@ -5,10 +5,8 @@
 
 #include <vector>
 
-class AGenPart;
 class ARecHit;
-class ACluster2d;
-class AMultiCluster;
+
 class AEvent : public TObject
 {
 public:
