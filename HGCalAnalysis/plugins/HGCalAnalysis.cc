@@ -136,8 +136,6 @@ HGCalAnalysis::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
   int npart = 0;
   int nhit  = 0;
-  int nclus = 0;
-  int nmclus = 0;
 
   Handle<HGCRecHitCollection> recHitHandleEE;
   Handle<HGCRecHitCollection> recHitHandleHE;
