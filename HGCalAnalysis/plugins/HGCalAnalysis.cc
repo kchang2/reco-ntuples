@@ -204,9 +204,7 @@ HGCalAnalysis::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
 
   const reco::CaloClusterCollection &clusters = *clusterHandle;
-  nclus = clusters.size();
   multiClusters = pre.makePreClusters(clusters);
-  nmclus = multiClusters.size();
   unsigned int cluster_index = 0;
   for(unsigned int i = 0; i < multiClusters.size(); i++){
       int cl2dSeed = 0;
