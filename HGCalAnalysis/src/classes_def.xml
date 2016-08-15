@@ -1,4 +1,5 @@
 <lcgdict>
    <class name="AEvent" />
    <class name="ARecHit" />
+   <class name="ARecHitCollection" />
 </lcgdict>
