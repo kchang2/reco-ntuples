@@ -19,10 +19,7 @@ public:
   {
     run =   i_run;
     evn = i_event;
-    ngen = i_ngen;
     nhit = i_nhit;
-    nclus2d = i_nclus;
-    nclus3d = i_nmclus;
     vx = i_vx;
     vy = i_vy;
     vz = i_vz;
