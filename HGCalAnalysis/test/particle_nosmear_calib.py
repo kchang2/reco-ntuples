@@ -13,7 +13,7 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(5) )
 process.source = cms.Source("PoolSource",
     # replace 'myfile.root' with the source file you want to use
     fileNames = cms.untracked.vstring(
-        'root://eoscms.cern.ch//eos/cms/store/cmst3/group/hgcal/CMG_studies/Production/partGun_clange_PDGid12_Pt35_20160729/RECO/partGun_PDGid12_x40_Pt35.0To35.0_RECO_1.root'
+        'eos/to/reco/root'
     ),
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck")
 )
@@ -24,7 +24,7 @@ process.ana = cms.EDAnalyzer('HGCalAnalysis',
 )
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string("twogamma_pt5_eta2_nosmear_calib_ntuple.root")
+                                   fileName = cms.string("rootname")
 
                                    )
 process.imagingClusterHGCal.ecut = cms.double(0.00)
